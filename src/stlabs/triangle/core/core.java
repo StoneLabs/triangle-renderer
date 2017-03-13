@@ -9,6 +9,8 @@ import static org.lwjgl.opengl.GL11.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class core
 {
@@ -47,14 +49,9 @@ public class core
 
 
 	@SuppressWarnings("unused")
-	private static Triangle m_triangle2;
-	private static Triangle m_triangle1;
+	private static List<Renderable> m_triangles = new ArrayList<Renderable>();
 	
 	private static Shader m_shader;
-	
-	static int m_vbo_vertex_handle;
-	static int m_ibo_index_handle;	
-	static int m_ibo_size;
 	
 	public static void initialize()
 	{
@@ -72,25 +69,20 @@ public class core
 		}
 		m_shader.compileShader();
 		
-		Line3f lineA = new Line3f(new Vector3f(-1.0f, -1.0f, 0), new Vector3f( 1.0f, -1.0f, 0));
-		Line3f lineB = new Line3f(new Vector3f( 1.0f, -1.0f, 0), new Vector3f( 0.0f,  1.0f, 0));
-		Line3f lineC = new Line3f(new Vector3f( 0.0f,  1.0f, 0), new Vector3f(-1.0f, -1.0f, 0));
-		
-		m_triangle1 = new Triangle(lineA, lineB, lineC);
-		
-//		Vector3f v1 = new Vector3f(-1, -1, 0);
-//		Vector3f v2 = new Vector3f(-1,  1, 0);
-//		Vector3f v3 = new Vector3f( 1,  1, 0);
-//		Vector3f v4 = new Vector3f( 1, -1, 0);
-//
-//		m_triangle1 = new Triangle(v1, v2, v3);
-//		m_triangle2 = new Triangle(v3, v4, v1);
+		Vector3f v1 = new Vector3f(-0.5f, -0.5f, 0);
+		Vector3f v2 = new Vector3f(-0.5f,  0.5f, 0);
+		Vector3f v3 = new Vector3f( 0.5f,  0.5f, 0);
+		Vector3f v4 = new Vector3f( 0.5f, -0.5f, 0);
+
+		m_triangles.add(new Triangle(v3, v2, v1)); //BACKFACE
+		m_triangles.add(new Triangle(v3, v4, v1)); //FRONTFACE
 	}
 	public static void render()
 	{
 		m_shader.bind();
-		m_triangle1.render();
-//		m_triangle2.render();
+		
+		for (Renderable r : m_triangles)
+			r.render();
 	}
 	
 }
