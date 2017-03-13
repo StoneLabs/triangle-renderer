@@ -55,19 +55,8 @@ public class core
 	
 	public static void initialize()
 	{
-		m_shader = new Shader();
-		try 
-		{
-			String workingDirectory = System.getProperty("user.dir");
-			Debug.Log("Loading shader... [WD: " + workingDirectory + "]");
-			m_shader.addVertexShader(new String(Files.readAllBytes(Paths.get(workingDirectory + "/res/simple.vs"))));
-			m_shader.addFragmentShader(new String(Files.readAllBytes(Paths.get(workingDirectory + "/res/simple.fs"))));
-		} 
-		catch (IOException e) 
-		{
-			Debug.Error(e.getMessage());
-		}
-		m_shader.compileShader();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		m_shader = ResourceLoader.loadShader("simple.vs", "simple.fs");
 		
 		Vector3f v1 = new Vector3f(-0.5f, -0.5f, 0);
 		Vector3f v2 = new Vector3f(-0.5f,  0.5f, 0);

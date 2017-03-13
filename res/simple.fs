@@ -3,7 +3,8 @@
 varying vec3 position_fs;
 
 void main(){
-	gl_FragColor = vec4(position_fs, 1.0);
+	gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+	//gl_FragColor = vec4(position_fs, 1.0);
 }
 
 //#version 330 core
